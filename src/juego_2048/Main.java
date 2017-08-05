@@ -1,5 +1,8 @@
 package juego_2048;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17,6 +20,9 @@ public class Main extends javax.swing.JFrame {
      */
     public Main() {
         initComponents();
+        // Inicializando procedimiento para detectar que tecla direccional fue precionada
+        KeyMonitor monitor = new KeyMonitor(this);
+        addKeyListener(monitor);
     }
 
     /**
@@ -737,4 +743,32 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JLabel score;
     private javax.swing.JPanel tablero;
     // End of variables declaration//GEN-END:variables
+}
+
+class KeyMonitor extends KeyAdapter {
+    Main display;
+    
+    KeyMonitor(Main display) {
+        this.display = display;
+    }
+    
+    @Override
+    public void keyPressed(KeyEvent event) {
+        switch(event.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                System.out.println("Up");
+                break;
+            case KeyEvent.VK_DOWN:
+                System.out.println("Down");
+                break;
+            case KeyEvent.VK_LEFT:
+                System.out.println("Left");
+                break;
+            case KeyEvent.VK_RIGHT:
+                System.out.println("Right");
+                break;
+            default:
+                System.out.println("Other");
+        }
+    }
 }
