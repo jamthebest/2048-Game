@@ -2,6 +2,10 @@ package juego_2048;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import javax.swing.JLabel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -14,15 +18,88 @@ import java.awt.event.KeyEvent;
  * @author javier
  */
 public class Main extends javax.swing.JFrame {
-
+    private int[][] boardMap;
+    private final JLabel[][] componentes;
+    
     /**
      * Creates new form Main
      */
     public Main() {
         initComponents();
+        // Inicializando Variables
+        this.componentes = new JLabel[][]{{cuadro00,cuadro01,cuadro02,cuadro03}, {cuadro10,cuadro11,cuadro12,cuadro13}, {cuadro20,cuadro21,cuadro22,cuadro23}, {cuadro30,cuadro31,cuadro32,cuadro33}};
+        boardMap = new int[4][4];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                boardMap[i][j] = 0;
+            }
+        }
+        
         // Inicializando procedimiento para detectar que tecla direccional fue precionada
         KeyMonitor monitor = new KeyMonitor(this);
         addKeyListener(monitor);
+        
+        // Inicializando primer numero a aparecer en panel
+        int value = numeroAleatorio();
+        int[] location = hubicacionAleatoria();
+        System.out.println(location[0] + ", " + location[1]);
+        boardMap[location[0]][location[1]] = value;
+        // Posibilidad para que aparezcan dos campos al iniciar juego (80%)
+        if (new Random().nextFloat() <= 0.8) {
+            numeroAleatorio();
+            location = hubicacionAleatoria();
+            System.out.println(location[0] + ", " + location[1]);
+            boardMap[location[0]][location[1]] = value;
+        }
+        
+        dibujarPanel();
+    }
+    
+    // Generación de numeros a aparecer en panel
+    public int numeroAleatorio() {
+        int value = new Random().nextDouble() < 0.9 ? 2 : 4;
+        System.out.println(value);
+        return value;
+    }
+    
+    // Generación de hubicación aleatoria
+    public int[] hubicacionAleatoria() {
+        int[] location = {0, 0};
+        if (hayLugarDisponible() == false) {
+            return location;
+        }
+        int x = 0;
+        int y = 0;
+        do {
+            x = new Random().nextInt(4);
+            y = new Random().nextInt(4);
+        } while(boardMap[x][y] != 0);
+        location[0] = x;
+        location[1] = y;
+        return location;
+    }
+    
+    // Verificar si hay hubicaciones disponibles
+    public boolean hayLugarDisponible() {
+        boolean hayHubicacion = false;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                hayHubicacion = hayHubicacion || boardMap[i][j] == 0;
+            }
+        }
+        return hayHubicacion;
+    }
+    
+    // Dibuja el panel de acuerdo a los valores en boardMap
+    public void dibujarPanel() {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (boardMap[i][j] != 0) {
+                    int value = boardMap[i][j];
+                    componentes[i][j].setText(String.valueOf(value));
+                }
+            }
+        }
     }
 
     /**
@@ -96,16 +173,16 @@ public class Main extends javax.swing.JFrame {
         score.setFont(new java.awt.Font("Snap ITC", 0, 24)); // NOI18N
         score.setForeground(new java.awt.Color(255, 255, 255));
         score.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        score.setText("jLabel3");
+        score.setText("0");
 
         javax.swing.GroupLayout panelScoreLayout = new javax.swing.GroupLayout(panelScore);
         panelScore.setLayout(panelScoreLayout);
         panelScoreLayout.setHorizontalGroup(
             panelScoreLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(lblScore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(lblScore, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
             .addGroup(panelScoreLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(score, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addComponent(score, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelScoreLayout.setVerticalGroup(
@@ -130,7 +207,6 @@ public class Main extends javax.swing.JFrame {
         cuadro00.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro00.setForeground(new java.awt.Color(99, 87, 87));
         cuadro00.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro00.setText("2048");
 
         javax.swing.GroupLayout panel00Layout = new javax.swing.GroupLayout(panel00);
         panel00.setLayout(panel00Layout);
@@ -158,7 +234,6 @@ public class Main extends javax.swing.JFrame {
         cuadro01.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro01.setForeground(new java.awt.Color(99, 87, 87));
         cuadro01.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro01.setText("2048");
 
         javax.swing.GroupLayout panel01Layout = new javax.swing.GroupLayout(panel01);
         panel01.setLayout(panel01Layout);
@@ -184,7 +259,6 @@ public class Main extends javax.swing.JFrame {
         cuadro02.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro02.setForeground(new java.awt.Color(99, 87, 87));
         cuadro02.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro02.setText("2048");
 
         javax.swing.GroupLayout panel02Layout = new javax.swing.GroupLayout(panel02);
         panel02.setLayout(panel02Layout);
@@ -210,7 +284,6 @@ public class Main extends javax.swing.JFrame {
         cuadro03.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro03.setForeground(new java.awt.Color(99, 87, 87));
         cuadro03.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro03.setText("2048");
 
         javax.swing.GroupLayout panel03Layout = new javax.swing.GroupLayout(panel03);
         panel03.setLayout(panel03Layout);
@@ -236,7 +309,6 @@ public class Main extends javax.swing.JFrame {
         cuadro10.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro10.setForeground(new java.awt.Color(99, 87, 87));
         cuadro10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro10.setText("2048");
 
         javax.swing.GroupLayout panel10Layout = new javax.swing.GroupLayout(panel10);
         panel10.setLayout(panel10Layout);
@@ -262,7 +334,6 @@ public class Main extends javax.swing.JFrame {
         cuadro11.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro11.setForeground(new java.awt.Color(99, 87, 87));
         cuadro11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro11.setText("2048");
 
         javax.swing.GroupLayout panel11Layout = new javax.swing.GroupLayout(panel11);
         panel11.setLayout(panel11Layout);
@@ -288,7 +359,6 @@ public class Main extends javax.swing.JFrame {
         cuadro12.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro12.setForeground(new java.awt.Color(99, 87, 87));
         cuadro12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro12.setText("2048");
 
         javax.swing.GroupLayout panel12Layout = new javax.swing.GroupLayout(panel12);
         panel12.setLayout(panel12Layout);
@@ -314,7 +384,6 @@ public class Main extends javax.swing.JFrame {
         cuadro13.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro13.setForeground(new java.awt.Color(99, 87, 87));
         cuadro13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro13.setText("2048");
 
         javax.swing.GroupLayout panel13Layout = new javax.swing.GroupLayout(panel13);
         panel13.setLayout(panel13Layout);
@@ -340,7 +409,6 @@ public class Main extends javax.swing.JFrame {
         cuadro20.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro20.setForeground(new java.awt.Color(99, 87, 87));
         cuadro20.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro20.setText("2048");
 
         javax.swing.GroupLayout panel20Layout = new javax.swing.GroupLayout(panel20);
         panel20.setLayout(panel20Layout);
@@ -366,7 +434,6 @@ public class Main extends javax.swing.JFrame {
         cuadro21.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro21.setForeground(new java.awt.Color(99, 87, 87));
         cuadro21.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro21.setText("2048");
 
         javax.swing.GroupLayout panel21Layout = new javax.swing.GroupLayout(panel21);
         panel21.setLayout(panel21Layout);
@@ -392,7 +459,6 @@ public class Main extends javax.swing.JFrame {
         cuadro22.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro22.setForeground(new java.awt.Color(99, 87, 87));
         cuadro22.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro22.setText("2048");
 
         javax.swing.GroupLayout panel22Layout = new javax.swing.GroupLayout(panel22);
         panel22.setLayout(panel22Layout);
@@ -418,7 +484,6 @@ public class Main extends javax.swing.JFrame {
         cuadro23.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro23.setForeground(new java.awt.Color(99, 87, 87));
         cuadro23.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro23.setText("2048");
 
         javax.swing.GroupLayout panel23Layout = new javax.swing.GroupLayout(panel23);
         panel23.setLayout(panel23Layout);
@@ -444,7 +509,6 @@ public class Main extends javax.swing.JFrame {
         cuadro31.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro31.setForeground(new java.awt.Color(99, 87, 87));
         cuadro31.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro31.setText("2048");
 
         javax.swing.GroupLayout panel31Layout = new javax.swing.GroupLayout(panel31);
         panel31.setLayout(panel31Layout);
@@ -470,7 +534,6 @@ public class Main extends javax.swing.JFrame {
         cuadro32.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro32.setForeground(new java.awt.Color(99, 87, 87));
         cuadro32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro32.setText("2048");
 
         javax.swing.GroupLayout panel32Layout = new javax.swing.GroupLayout(panel32);
         panel32.setLayout(panel32Layout);
@@ -496,7 +559,6 @@ public class Main extends javax.swing.JFrame {
         cuadro30.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro30.setForeground(new java.awt.Color(99, 87, 87));
         cuadro30.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro30.setText("2048");
 
         javax.swing.GroupLayout panel30Layout = new javax.swing.GroupLayout(panel30);
         panel30.setLayout(panel30Layout);
@@ -522,7 +584,6 @@ public class Main extends javax.swing.JFrame {
         cuadro33.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro33.setForeground(new java.awt.Color(99, 87, 87));
         cuadro33.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        cuadro33.setText("2048");
 
         javax.swing.GroupLayout panel33Layout = new javax.swing.GroupLayout(panel33);
         panel33.setLayout(panel33Layout);
@@ -658,6 +719,7 @@ public class Main extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -667,7 +729,7 @@ public class Main extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -745,13 +807,14 @@ public class Main extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 }
 
+// Clase para detectar la pulsacion de teclas
 class KeyMonitor extends KeyAdapter {
     Main display;
-    
+
     KeyMonitor(Main display) {
         this.display = display;
     }
-    
+
     @Override
     public void keyPressed(KeyEvent event) {
         switch(event.getKeyCode()) {

@@ -13,7 +13,7 @@
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
-    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="true"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -117,10 +117,10 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblScore" alignment="1" max="32767" attributes="0"/>
+                  <Component id="lblScore" alignment="1" pref="140" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="score" pref="120" max="32767" attributes="0"/>
+                      <Component id="score" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -159,7 +159,7 @@
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="jLabel3"/>
+                <Property name="text" type="java.lang.String" value="0"/>
               </Properties>
               <AccessibilityProperties>
                 <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="lblScore"/>
@@ -308,7 +308,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                   <AccessibilityProperties>
                     <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="lbl00"/>
@@ -359,7 +358,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -407,7 +405,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -455,7 +452,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -503,7 +499,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -551,7 +546,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -599,7 +593,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -647,7 +640,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -695,7 +687,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -743,7 +734,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -791,7 +781,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -839,7 +828,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -887,7 +875,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -935,7 +922,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -983,7 +969,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -1031,7 +1016,6 @@
                       <Color blue="57" green="57" red="63" type="rgb"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="2048"/>
                   </Properties>
                 </Component>
               </SubComponents>
