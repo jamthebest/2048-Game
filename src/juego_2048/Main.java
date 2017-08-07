@@ -2,8 +2,6 @@ package juego_2048;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import javax.swing.JLabel;
 
@@ -17,9 +15,10 @@ import javax.swing.JLabel;
  *
  * @author javier
  */
-public class Main extends javax.swing.JFrame {
+public final class Main extends javax.swing.JFrame {
     private int[][] boardMap;
     private final JLabel[][] componentes;
+    private boolean finJuego = false;
     
     /**
      * Creates new form Main
@@ -40,20 +39,18 @@ public class Main extends javax.swing.JFrame {
         addKeyListener(monitor);
         
         // Inicializando primer numero a aparecer en panel
-        int value = numeroAleatorio();
-        int[] location = hubicacionAleatoria();
-        System.out.println(location[0] + ", " + location[1]);
-        boardMap[location[0]][location[1]] = value;
+        //siguienteFicha();
         // Posibilidad para que aparezcan dos campos al iniciar juego (80%)
         if (new Random().nextFloat() <= 0.8) {
-            numeroAleatorio();
-            location = hubicacionAleatoria();
-            System.out.println(location[0] + ", " + location[1]);
-            boardMap[location[0]][location[1]] = value;
+            //siguienteFicha();
         }
-        //boardMap[0][1] = 2;
-        //boardMap[0][2] = 4;
-        dibujarPanel();
+        boardMap[0][3] = 4;
+        boardMap[3][3] = 2;
+        this.dibujarPanel();
+    }
+    
+    public boolean obtenerFinJuego() {
+        return this.finJuego;
     }
     
     // Generación de numeros a aparecer en panel
@@ -63,9 +60,23 @@ public class Main extends javax.swing.JFrame {
         return value;
     }
     
+    // Obtener siguiente numero con hubicación
+    public void siguienteFicha() {
+        int value = numeroAleatorio();
+        int[] location = hubicacionAleatoria();
+        System.out.println(location[0] + ", " + location[1]);
+        if (location[0] == -1 || location[1] == -1) {
+            finJuego = true;
+            System.out.println("Fin del Juego");
+            return;
+        }
+        boardMap[location[0]][location[1]] = value;
+        dibujarPanel();
+    }
+    
     // Generación de hubicación aleatoria
     public int[] hubicacionAleatoria() {
-        int[] location = {0, 0};
+        int[] location = {-1, -1};
         if (hayLugarDisponible() == false) {
             return location;
         }
@@ -82,13 +93,14 @@ public class Main extends javax.swing.JFrame {
     
     // Verificar si hay hubicaciones disponibles
     public boolean hayLugarDisponible() {
-        boolean hayHubicacion = false;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                hayHubicacion = hayHubicacion || boardMap[i][j] == 0;
+                if (boardMap[i][j] == 0) {
+                    return true;
+                }
             }
         }
-        return hayHubicacion;
+        return false;
     }
     
     // Dibuja el panel de acuerdo a los valores en boardMap
@@ -107,116 +119,140 @@ public class Main extends javax.swing.JFrame {
     // Acción de mover a la derecha
     public void moverDerecha() {
         for (int i = 3; i >= 0; i--) {
-            int posicionDisponible = 3;
             for (int j = 3; j >= 0; j--) {
-                if (posicionDisponible == j) {
-                    continue;
-                }
                 if (this.boardMap[i][j] != 0) {
-                    boolean sePuede = this.sePuedeMover(i, j, posicionDisponible);
-                    if (sePuede == false) {
-                        boolean completo = false;
-                        posicionDisponible--;
-                        while (posicionDisponible >= j && completo == false) {
-                            completo = this.sePuedeMover(i, j, posicionDisponible);
+                    int posicionDisponible = j;
+                    for (int k = j + 1; k <= 3; k++) {
+                        if (this.boardMap[i][k] == 0) {
+                            posicionDisponible = k;
+                        } else {
+                            if (this.sePuedeMover(i, j, k, false)) {
+                                posicionDisponible = k;
+                            }
+                            break;
                         }
+                    }
+                    if (posicionDisponible != j) {
+                        System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
+                        boolean sePuede = this.sePuedeMover(i, j, posicionDisponible, true);
+                    } else {
+                        System.out.println("Nada se movió");
                     }
                 }
             }
         }
-        dibujarPanel();
     }
     
     // Acción de mover a la izquierda
     public void moverIzquierda() {
         for (int i = 0; i <= 3; i++) {
-            int posicionDisponible = 0;
             for (int j = 0; j <= 3; j++) {
-                if (posicionDisponible == j) {
-                    continue;
-                }
                 if (this.boardMap[i][j] != 0) {
-                    boolean sePuede = this.sePuedeMover(i, j, posicionDisponible);
-                    if (sePuede == false) {
-                        boolean completo = false;
-                        posicionDisponible++;
-                        while (posicionDisponible <= j && completo == false) {
-                            completo = this.sePuedeMover(i, j, posicionDisponible);
+                    int posicionDisponible = j;
+                    for (int k = j - 1; k >= 0; k--) {
+                        if (this.boardMap[i][k] == 0) {
+                            posicionDisponible = k;
+                        } else {
+                            if (this.sePuedeMover(i, j, k, false)) {
+                                posicionDisponible = k;
+                            }
+                            break;
                         }
+                    }
+                    if (posicionDisponible != j) {
+                        System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
+                        boolean sePuede = this.sePuedeMover(i, j, posicionDisponible, true);
+                    } else {
+                        System.out.println("Nada se movió");
                     }
                 }
             }
         }
-        dibujarPanel();
     }
     
     // Acción de mover hacia arriba
     public void moverArriba() {
         for (int j = 0; j <= 3; j++) {
-            int posicionDisponible = 0;
             for (int i = 0; i <= 3; i++) {
-                if (posicionDisponible == i) {
-                    continue;
-                }
                 if (this.boardMap[i][j] != 0) {
-                    boolean sePuede = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible);
-                    if (sePuede == false) {
-                        boolean completo = false;
-                        posicionDisponible++;
-                        while (posicionDisponible <= i && completo == false) {
-                            completo = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible);
+                    int posicionDisponible = i;
+                    for (int k = i - 1; k >= 0; k--) {
+                        if (this.boardMap[k][j] == 0) {
+                            posicionDisponible = k;
+                        } else {
+                            if (this.sePuedeMoverArribaAbajo(i, j, k, false)) {
+                                posicionDisponible = k;
+                            }
+                            break;
                         }
+                    }
+                    if (posicionDisponible != i) {
+                        System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
+                        boolean sePuede = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible, true);
+                    } else {
+                        System.out.println("Nada se movió");
                     }
                 }
             }
         }
-        dibujarPanel();
     }
     
     // Acción de mover hacia abajo
     public void moverAbajo() {
         for (int j = 3; j >= 0; j--) {
-            int posicionDisponible = 3;
             for (int i = 3; i >= 0; i--) {
-                if (posicionDisponible == i) {
-                    continue;
-                }
                 if (this.boardMap[i][j] != 0) {
-                    boolean sePuede = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible);
-                    if (sePuede == false) {
-                        boolean completo = false;
-                        posicionDisponible--;
-                        while (posicionDisponible >= i && completo == false) {
-                            completo = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible);
+                    int posicionDisponible = i;
+                    for (int k = i + 1; k <= 3; k++) {
+                        if (this.boardMap[k][j] == 0) {
+                            posicionDisponible = k;
+                        } else {
+                            if (this.sePuedeMoverArribaAbajo(i, j, k, false)) {
+                                posicionDisponible = k;
+                            }
+                            break;
                         }
+                    }
+                    if (posicionDisponible != i) {
+                        System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
+                        boolean sePuede = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible, true);
+                    } else {
+                        System.out.println("Nada se movió");
                     }
                 }
             }
         }
-        dibujarPanel();
     }
 
     // Verificar si una ficha se puede mover desde la posicion (i, j) hacia (i, posicionDisponible)
-    public boolean sePuedeMover(int i, int j, int posicionDisponible) {
+    public boolean sePuedeMover(int i, int j, int posicionDisponible, boolean mover) {
         boolean sePuede = false;
         if (this.boardMap[i][posicionDisponible] == 0) {
-            this.colocarValor(i, j, posicionDisponible);
+            if (mover) {
+                this.colocarValor(i, j, posicionDisponible);
+            }
             sePuede = true;
         } else if (this.boardMap[i][j] == this.boardMap[i][posicionDisponible]) {
-            this.colocarValor(i, j, posicionDisponible);
+            if (mover) {
+                this.colocarValor(i, j, posicionDisponible);
+            }
             sePuede = true;
         }
         return sePuede;
     }
 
     // Verificar si una ficha se puede mover desde la posicion (i, j) hacia (i, posicionDisponible)
-    public boolean sePuedeMoverArribaAbajo(int i, int j, int posicionDisponible) {
+    public boolean sePuedeMoverArribaAbajo(int i, int j, int posicionDisponible, boolean mover) {
         boolean sePuede = false;
         if (this.boardMap[posicionDisponible][j] == 0) {
-            this.colocarValorArribaAbajo(i, j, posicionDisponible);
+            if (mover) {
+                this.colocarValorArribaAbajo(i, j, posicionDisponible);
+            }
             sePuede = true;
         } else if (this.boardMap[i][j] == this.boardMap[posicionDisponible][j]) {
-            this.colocarValorArribaAbajo(i, j, posicionDisponible);
+            if (mover) {
+                this.colocarValorArribaAbajo(i, j, posicionDisponible);
+            }
             sePuede = true;
         }
         return sePuede;
@@ -224,12 +260,14 @@ public class Main extends javax.swing.JFrame {
     
     // Si es posible coloca el valor de la posicion (x, primerY) en la posicion (x, segundoY)
     private void colocarValor(int x, int primerY, int segundoY) {
+        System.out.println("x: " + x + ", Py: " + primerY + ", Sy: " + segundoY + ", board: " + this.boardMap[x][segundoY] + ", value: " + this.boardMap[x][primerY]);
         if (this.boardMap[x][segundoY] == 0) {
             this.boardMap[x][segundoY] = this.boardMap[x][primerY];
         } else {
             this.boardMap[x][segundoY] += this.boardMap[x][primerY];
         }
         this.boardMap[x][primerY] = 0;
+        //this.dibujarPanel();
         /*for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 System.out.print(this.boardMap[i][j] + " ");
@@ -240,6 +278,7 @@ public class Main extends javax.swing.JFrame {
     
     // Si es posible coloca el valor de la posicion (x, primerY) en la posicion (x, segundoY)
     private void colocarValorArribaAbajo(int x, int primerY, int segundoY) {
+        System.out.println("x: " + x + ", Py: " + primerY + ", Sy: " + segundoY + ", board: " + this.boardMap[x][segundoY] + ", value: " + this.boardMap[x][primerY]);
         if (this.boardMap[segundoY][primerY] == 0) {
             this.boardMap[segundoY][primerY] = this.boardMap[x][primerY];
         } else {
@@ -971,16 +1010,28 @@ class KeyMonitor extends KeyAdapter {
     public void keyPressed(KeyEvent event) {
         switch(event.getKeyCode()) {
             case KeyEvent.VK_UP:
-                this.display.moverArriba();
+                if (this.display.obtenerFinJuego() == false) {
+                    this.display.moverArriba();
+                    this.display.siguienteFicha();
+                }
                 break;
             case KeyEvent.VK_DOWN:
-                this.display.moverAbajo();
+                if (this.display.obtenerFinJuego() == false) {
+                    this.display.moverAbajo();
+                    this.display.siguienteFicha();
+                }
                 break;
             case KeyEvent.VK_LEFT:
-                this.display.moverIzquierda();
+                if (this.display.obtenerFinJuego() == false) {
+                    this.display.moverIzquierda();
+                    this.display.siguienteFicha();
+                }
                 break;
             case KeyEvent.VK_RIGHT:
-                this.display.moverDerecha();
+                if (this.display.obtenerFinJuego() == false) {
+                    this.display.moverDerecha();
+                    this.display.siguienteFicha();
+                }
                 break;
             default:
                 System.out.println("Other");
