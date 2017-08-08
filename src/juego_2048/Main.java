@@ -39,13 +39,14 @@ public final class Main extends javax.swing.JFrame {
         addKeyListener(monitor);
         
         // Inicializando primer numero a aparecer en panel
-        //siguienteFicha();
+        siguienteFicha();
         // Posibilidad para que aparezcan dos campos al iniciar juego (80%)
         if (new Random().nextFloat() <= 0.8) {
-            //siguienteFicha();
+            siguienteFicha();
         }
-        boardMap[0][3] = 4;
-        boardMap[3][3] = 2;
+        /*boardMap[0][3] = 4;
+        boardMap[1][3] = 2;
+        boardMap[3][3] = 2;*/
         this.dibujarPanel();
     }
     
@@ -117,7 +118,8 @@ public final class Main extends javax.swing.JFrame {
     }
     
     // Acción de mover a la derecha
-    public void moverDerecha() {
+    public boolean moverDerecha() {
+        boolean seMueve = false;
         for (int i = 3; i >= 0; i--) {
             for (int j = 3; j >= 0; j--) {
                 if (this.boardMap[i][j] != 0) {
@@ -134,17 +136,19 @@ public final class Main extends javax.swing.JFrame {
                     }
                     if (posicionDisponible != j) {
                         System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
-                        boolean sePuede = this.sePuedeMover(i, j, posicionDisponible, true);
+                        seMueve = this.sePuedeMover(i, j, posicionDisponible, true) || seMueve;
                     } else {
                         System.out.println("Nada se movió");
                     }
                 }
             }
         }
+        return seMueve;
     }
     
     // Acción de mover a la izquierda
-    public void moverIzquierda() {
+    public boolean moverIzquierda() {
+        boolean seMueve = false;
         for (int i = 0; i <= 3; i++) {
             for (int j = 0; j <= 3; j++) {
                 if (this.boardMap[i][j] != 0) {
@@ -161,17 +165,19 @@ public final class Main extends javax.swing.JFrame {
                     }
                     if (posicionDisponible != j) {
                         System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
-                        boolean sePuede = this.sePuedeMover(i, j, posicionDisponible, true);
+                        seMueve = this.sePuedeMover(i, j, posicionDisponible, true) || seMueve;
                     } else {
                         System.out.println("Nada se movió");
                     }
                 }
             }
         }
+        return seMueve;
     }
     
     // Acción de mover hacia arriba
-    public void moverArriba() {
+    public boolean moverArriba() {
+        boolean seMueve = false;
         for (int j = 0; j <= 3; j++) {
             for (int i = 0; i <= 3; i++) {
                 if (this.boardMap[i][j] != 0) {
@@ -188,17 +194,19 @@ public final class Main extends javax.swing.JFrame {
                     }
                     if (posicionDisponible != i) {
                         System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
-                        boolean sePuede = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible, true);
+                        seMueve = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible, true) || seMueve;
                     } else {
                         System.out.println("Nada se movió");
                     }
                 }
             }
         }
+        return seMueve;
     }
     
     // Acción de mover hacia abajo
-    public void moverAbajo() {
+    public boolean moverAbajo() {
+        boolean seMueve = false;
         for (int j = 3; j >= 0; j--) {
             for (int i = 3; i >= 0; i--) {
                 if (this.boardMap[i][j] != 0) {
@@ -215,13 +223,14 @@ public final class Main extends javax.swing.JFrame {
                     }
                     if (posicionDisponible != i) {
                         System.out.println("i: " + i + ", j: " + j + ", pos: " + posicionDisponible);
-                        boolean sePuede = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible, true);
+                        seMueve = this.sePuedeMoverArribaAbajo(i, j, posicionDisponible, true) || seMueve;
                     } else {
                         System.out.println("Nada se movió");
                     }
                 }
             }
         }
+        return seMueve;
     }
 
     // Verificar si una ficha se puede mover desde la posicion (i, j) hacia (i, posicionDisponible)
@@ -255,6 +264,7 @@ public final class Main extends javax.swing.JFrame {
             }
             sePuede = true;
         }
+        System.out.println("Se mueve ab: " + sePuede);
         return sePuede;
     }
     
@@ -285,12 +295,12 @@ public final class Main extends javax.swing.JFrame {
             this.boardMap[segundoY][primerY] += this.boardMap[x][primerY];
         }
         this.boardMap[x][primerY] = 0;
-        /*for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 System.out.print(this.boardMap[i][j] + " ");
             }
             System.out.println("");
-        }*/
+        }//*/
     }
     
     /**
@@ -1008,29 +1018,38 @@ class KeyMonitor extends KeyAdapter {
 
     @Override
     public void keyPressed(KeyEvent event) {
+        boolean seMueve = false;
         switch(event.getKeyCode()) {
             case KeyEvent.VK_UP:
                 if (this.display.obtenerFinJuego() == false) {
-                    this.display.moverArriba();
-                    this.display.siguienteFicha();
+                    seMueve = this.display.moverArriba();
+                    if (seMueve) {
+                        this.display.siguienteFicha();
+                    }
                 }
                 break;
             case KeyEvent.VK_DOWN:
                 if (this.display.obtenerFinJuego() == false) {
-                    this.display.moverAbajo();
-                    this.display.siguienteFicha();
+                    seMueve = this.display.moverAbajo();
+                    if (seMueve) {
+                        this.display.siguienteFicha();
+                    }
                 }
                 break;
             case KeyEvent.VK_LEFT:
                 if (this.display.obtenerFinJuego() == false) {
-                    this.display.moverIzquierda();
-                    this.display.siguienteFicha();
+                    seMueve = this.display.moverIzquierda();
+                    if (seMueve) {
+                        this.display.siguienteFicha();
+                    }
                 }
                 break;
             case KeyEvent.VK_RIGHT:
                 if (this.display.obtenerFinJuego() == false) {
-                    this.display.moverDerecha();
-                    this.display.siguienteFicha();
+                    seMueve = this.display.moverDerecha();
+                    if (seMueve) {
+                        this.display.siguienteFicha();
+                    }
                 }
                 break;
             default:
