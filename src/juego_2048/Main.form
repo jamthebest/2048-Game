@@ -102,7 +102,7 @@
               <Font name="Castellar" size="80" style="1"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="53" green="53" red="73" type="rgb"/>
+              <Color blue="65" green="6e" red="77" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="2048"/>
           </Properties>
@@ -170,7 +170,7 @@
         <Container class="javax.swing.JPanel" name="tablero">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ab" green="ab" red="c1" type="rgb"/>
+              <Color blue="a0" green="ad" red="bb" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -299,7 +299,7 @@
                 <Component class="javax.swing.JLabel" name="cuadro00">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                      <Color blue="d1" green="d1" red="e0" type="rgb"/>
+                      <Color blue="b4" green="c1" red="cd" type="rgb"/>
                     </Property>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Perpetua Titling MT" size="48" style="1"/>

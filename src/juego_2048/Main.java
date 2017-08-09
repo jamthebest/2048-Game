@@ -1,9 +1,13 @@
 package juego_2048;
 
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -18,8 +22,10 @@ import javax.swing.JLabel;
 public final class Main extends javax.swing.JFrame {
     private int[][] boardMap;
     private final JLabel[][] componentes;
+    private final JPanel[][] cuadros;
     private boolean finJuego = false;
     private int resultado = 0;
+    private Map<Integer, Color> colores;
     
     /**
      * Creates new form Main
@@ -27,7 +33,23 @@ public final class Main extends javax.swing.JFrame {
     public Main() {
         initComponents();
         // Inicializando Variables
+        colores = new HashMap<>();
+        colores.put(0, new Color(205, 193, 180));
+        colores.put(2, new Color(238, 228, 218));
+        colores.put(4, new Color(237, 224, 200));
+        colores.put(8, new Color(242, 177, 121));
+        colores.put(16, new Color(245, 149, 99));
+        colores.put(32, new Color(246, 124, 95));
+        colores.put(64, new Color(246, 94, 59));
+        colores.put(128, new Color(237, 207, 114));
+        colores.put(256, new Color(237, 204, 97));
+        colores.put(512, new Color(237, 200, 80));
+        colores.put(1024, new Color(237, 197, 63));
+        colores.put(2048, new Color(237, 194, 46));
+        colores.put(4096, new Color(184, 133, 172));
+        colores.put(8192, new Color(175, 109, 179));
         this.componentes = new JLabel[][]{{cuadro00,cuadro01,cuadro02,cuadro03}, {cuadro10,cuadro11,cuadro12,cuadro13}, {cuadro20,cuadro21,cuadro22,cuadro23}, {cuadro30,cuadro31,cuadro32,cuadro33}};
+        this.cuadros = new JPanel[][]{{panel00,panel01,panel02,panel03}, {panel10,panel11,panel12,panel13}, {panel20,panel21,panel22,panel23}, {panel30,panel31,panel32,panel33}};
         boardMap = new int[4][4];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
@@ -110,6 +132,8 @@ public final class Main extends javax.swing.JFrame {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 componentes[i][j].setText("");
+                Color cuadroColor = colores.get(this.boardMap[i][j]);
+                cuadros[i][j].setBackground(cuadroColor);
                 if (boardMap[i][j] != 0) {
                     int value = boardMap[i][j];
                     componentes[i][j].setText(String.valueOf(value));
@@ -365,7 +389,7 @@ public final class Main extends javax.swing.JFrame {
         content.setForeground(new java.awt.Color(240, 240, 240));
 
         name.setFont(new java.awt.Font("Castellar", 1, 80)); // NOI18N
-        name.setForeground(new java.awt.Color(115, 83, 83));
+        name.setForeground(new java.awt.Color(119, 110, 101));
         name.setText("2048");
 
         panelScore.setBackground(new java.awt.Color(157, 137, 137));
@@ -402,13 +426,13 @@ public final class Main extends javax.swing.JFrame {
 
         score.getAccessibleContext().setAccessibleName("lblScore");
 
-        tablero.setBackground(new java.awt.Color(193, 171, 171));
+        tablero.setBackground(new java.awt.Color(187, 173, 160));
         tablero.setBorder(javax.swing.BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         panel00.setBackground(new java.awt.Color(220, 204, 204));
         panel00.setPreferredSize(new java.awt.Dimension(160, 160));
 
-        cuadro00.setBackground(new java.awt.Color(224, 209, 209));
+        cuadro00.setBackground(new java.awt.Color(205, 193, 180));
         cuadro00.setFont(new java.awt.Font("Perpetua Titling MT", 1, 48)); // NOI18N
         cuadro00.setForeground(new java.awt.Color(99, 87, 87));
         cuadro00.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -980,14 +1004,6 @@ public final class Main extends javax.swing.JFrame {
     private javax.swing.JLabel cuadro31;
     private javax.swing.JLabel cuadro32;
     private javax.swing.JLabel cuadro33;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JLabel lblScore;
     private javax.swing.JLabel name;
     private javax.swing.JPanel panel00;
