@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /*
@@ -77,6 +78,32 @@ public final class Main extends javax.swing.JFrame {
         return this.finJuego;
     }
     
+    // Verifica si hay algun posible movimiento o si la partida se terminó
+    public boolean verificarFin() {
+        boolean esFin = true;
+        for (int i = 0; i <= 3; i++) {
+            for (int j = 0; j <= 3; j++) {
+                if (this.boardMap[i][j] == 0) {
+                    return false;
+                } else {
+                    if ((i - 1 >= 0 && this.boardMap[i - 1][j] == this.boardMap[i][j]) || (i + 1 <= 3 && this.boardMap[i + 1][j] == this.boardMap[i][j])) {
+                        return false;
+                    }
+                    if ((j - 1 >= 0 && this.boardMap[i][j - 1] == this.boardMap[i][j]) || (j + 1 <= 3 && this.boardMap[i][j + 1] == this.boardMap[i][j])) {
+                        return false;
+                    }
+                }
+            }
+        }
+        this.finJuego = true;
+        return esFin;
+    }
+    
+    // Muestra un mensaje cuando el juego terminó
+    public void mostrarFin() {
+        JOptionPane.showMessageDialog(null, "No hay más movimientos disponibles", "Fin del Juego", JOptionPane.WARNING_MESSAGE);
+    }
+    
     // Generación de numeros a aparecer en panel
     public int numeroAleatorio() {
         int value = new Random().nextDouble() < 0.9 ? 2 : 4;
@@ -92,6 +119,7 @@ public final class Main extends javax.swing.JFrame {
         if (location[0] == -1 || location[1] == -1) {
             finJuego = true;
             System.out.println("Fin del Juego");
+            this.mostrarFin();
             return;
         }
         boardMap[location[0]][location[1]] = value;
@@ -1043,37 +1071,33 @@ class KeyMonitor extends KeyAdapter {
             case KeyEvent.VK_UP:
                 if (this.display.obtenerFinJuego() == false) {
                     seMueve = this.display.moverArriba();
-                    if (seMueve) {
-                        this.display.siguienteFicha();
-                    }
                 }
                 break;
             case KeyEvent.VK_DOWN:
                 if (this.display.obtenerFinJuego() == false) {
                     seMueve = this.display.moverAbajo();
-                    if (seMueve) {
-                        this.display.siguienteFicha();
-                    }
                 }
                 break;
             case KeyEvent.VK_LEFT:
                 if (this.display.obtenerFinJuego() == false) {
                     seMueve = this.display.moverIzquierda();
-                    if (seMueve) {
-                        this.display.siguienteFicha();
-                    }
                 }
                 break;
             case KeyEvent.VK_RIGHT:
                 if (this.display.obtenerFinJuego() == false) {
                     seMueve = this.display.moverDerecha();
-                    if (seMueve) {
-                        this.display.siguienteFicha();
-                    }
                 }
                 break;
             default:
                 System.out.println("Other");
+        }
+        if (seMueve) {
+            this.display.siguienteFicha();
+        } else {
+            if (this.display.verificarFin()) {
+                System.out.println("Fin del Juego");
+                this.display.mostrarFin();
+            }
         }
     }
 }
