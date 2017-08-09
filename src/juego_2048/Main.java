@@ -19,6 +19,7 @@ public final class Main extends javax.swing.JFrame {
     private int[][] boardMap;
     private final JLabel[][] componentes;
     private boolean finJuego = false;
+    private int resultado = 0;
     
     /**
      * Creates new form Main
@@ -115,6 +116,7 @@ public final class Main extends javax.swing.JFrame {
                 }
             }
         }
+        this.score.setText(String.valueOf(this.resultado));
     }
     
     // Acción de mover a la derecha
@@ -274,6 +276,7 @@ public final class Main extends javax.swing.JFrame {
         if (this.boardMap[x][segundoY] == 0) {
             this.boardMap[x][segundoY] = this.boardMap[x][primerY];
         } else {
+            this.resultado += this.boardMap[x][segundoY] + this.boardMap[x][primerY];
             this.boardMap[x][segundoY] += this.boardMap[x][primerY];
         }
         this.boardMap[x][primerY] = 0;
@@ -292,10 +295,11 @@ public final class Main extends javax.swing.JFrame {
         if (this.boardMap[segundoY][primerY] == 0) {
             this.boardMap[segundoY][primerY] = this.boardMap[x][primerY];
         } else {
+            this.resultado += this.boardMap[segundoY][primerY] + this.boardMap[x][primerY];
             this.boardMap[segundoY][primerY] += this.boardMap[x][primerY];
         }
         this.boardMap[x][primerY] = 0;
-        for (int i = 0; i < 4; i++) {
+        /*for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 System.out.print(this.boardMap[i][j] + " ");
             }
